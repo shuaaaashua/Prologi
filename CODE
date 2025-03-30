@@ -1,1 +1,14 @@
-HELLO
+import tkinter as tk
+from tkinter import messagebox, colorchooser
+from tkcalendar import Calendar
+import json
+import os
+
+class CalendarApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("My Simple Calendar")
+
+        # Store events in a dictionary
+        self.events = self.load_events()
+
