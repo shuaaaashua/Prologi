@@ -53,7 +53,7 @@ class CalendarApp:
         if color:
             self.color = color
 
-def add_event(self):
+    def add_event(self):
         date = self.calendar.get_date()
         event_name = self.event_input.get().strip()
         desc = self.desc_input.get().strip()
@@ -105,5 +105,23 @@ def add_event(self):
                 event_text = f"- {event[0]}: {event[1]}"
                 self.event_listbox.insert(tk.END, event_text)
                 self.event_listbox.itemconfig(tk.END, {'fg': event[2]})
+
+    def save_events(self):
+        try:
+            with open("events.json", "w") as file:
+                json.dump(self.events, file, indent=4)
+        except Exception as e:
+            print(f"Error saving events: {e}")
+
+    def load_events(self):
+        if os.path.exists("events.json"):
+            try:
+                with open("events.json", "r") as file:
+                    return json.load(file)
+            except json.JSONDecodeError:
+                return {}
+        return {}
+
+
 
 
