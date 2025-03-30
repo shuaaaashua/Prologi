@@ -122,6 +122,16 @@ class CalendarApp:
                 return {}
         return {}
 
+ def show_help(self):
+        help_msg = (
+            "Using This Calendar:\n\n"
+            "- Pick a date, enter an event name, and (optional) a description.\n"
+            "- Click 'Add' to save the event.\n"
+            "- To remove an event, select it and press 'Delete'.\n"
+            "- Events are saved automatically!"
+        )
+        messagebox.showinfo("Help", help_msg)
+
 
 
 
