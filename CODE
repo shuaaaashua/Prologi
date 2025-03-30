@@ -48,3 +48,8 @@ class CalendarApp:
 
         self.refresh_display()
 
+    def pick_color(self):
+        color = colorchooser.askcolor(title="Pick a Color")[1]
+        if color:
+            self.color = color
+
