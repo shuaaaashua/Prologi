@@ -53,3 +53,57 @@ class CalendarApp:
         if color:
             self.color = color
 
+def add_event(self):
+        date = self.calendar.get_date()
+        event_name = self.event_input.get().strip()
+        desc = self.desc_input.get().strip()
+
+        if not event_name:
+            messagebox.showerror("Oops!", "Enter an event name.")
+            return
+
+        if date not in self.events:
+            self.events[date] = []
+
+        self.events[date].append((event_name, desc, self.color))
+        self.save_events()
+        self.refresh_display()
+
+        self.event_input.delete(0, tk.END)
+        self.desc_input.delete(0, tk.END)
+        self.color = "#000000"  
+
+        messagebox.showinfo("Done!", f"Added '{event_name}' on {date}.")
+
+    def delete_event(self):
+        try:
+            selected = self.event_listbox.curselection()[0]
+            selected_text = self.event_listbox.get(selected).strip()
+
+            for date, items in self.events.items():
+                for event in items:
+                    if selected_text == f"- {event[0]}: {event[1]}":
+                        self.events[date].remove(event)
+                        if not self.events[date]:
+                            del self.events[date]
+                        self.save_events()
+                        self.refresh_display()
+                        return
+        except IndexError:
+            messagebox.showerror("Error", "No event selected.")
+
+    def refresh_display(self):
+        self.event_listbox.delete(0, tk.END)
+
+        if not self.events:
+            self.event_listbox.insert(tk.END, "Nothing yet.")
+            return
+
+        for date, items in sorted(self.events.items()):
+            self.event_listbox.insert(tk.END, f"{date}:")
+            for event in items:
+                event_text = f"- {event[0]}: {event[1]}"
+                self.event_listbox.insert(tk.END, event_text)
+                self.event_listbox.itemconfig(tk.END, {'fg': event[2]})
+
+
