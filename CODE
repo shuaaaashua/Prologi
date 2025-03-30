@@ -12,3 +12,39 @@ class CalendarApp:
         # Store events in a dictionary
         self.events = self.load_events()
 
+        self.setup_ui()
+
+    def setup_ui(self):
+        """Build the user interface."""
+        self.calendar = Calendar(self.root, selectmode="day", date_pattern="yyyy-mm-dd")
+        self.calendar.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
+
+        tk.Label(self.root, text="Event Name:").grid(row=1, column=0, padx=10, pady=5)
+        self.event_input = tk.Entry(self.root)
+        self.event_input.grid(row=1, column=1, padx=10, pady=5)
+
+        tk.Label(self.root, text="Details:").grid(row=2, column=0, padx=10, pady=5)
+        self.desc_input = tk.Entry(self.root)
+        self.desc_input.grid(row=2, column=1, padx=10, pady=5)
+
+        tk.Label(self.root, text="Color:").grid(row=3, column=0, padx=10, pady=5)
+        self.color_btn = tk.Button(self.root, text="Choose", command=self.pick_color)
+        self.color_btn.grid(row=3, column=1, padx=10, pady=5)
+        self.color = "#000000"  
+
+        tk.Button(self.root, text="Add", command=self.add_event).grid(row=4, column=0, padx=10, pady=5)
+        tk.Button(self.root, text="Delete", command=self.delete_event).grid(row=4, column=1, padx=10, pady=5)
+
+        self.event_listbox = tk.Listbox(self.root, width=50, height=10)
+        self.event_listbox.grid(row=5, column=0, columnspan=2, padx=10, pady=5)
+
+        menu_bar = tk.Menu(self.root)
+        self.root.config(menu=menu_bar)
+
+        file_menu = tk.Menu(menu_bar, tearoff=0)
+        file_menu.add_command(label="Help", command=self.show_help)
+        file_menu.add_command(label="Exit", command=self.root.quit)
+        menu_bar.add_cascade(label="Menu", menu=file_menu)
+
+        self.refresh_display()
+
